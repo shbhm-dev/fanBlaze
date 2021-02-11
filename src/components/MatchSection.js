@@ -1,9 +1,10 @@
-import React, { useEffect } from "react"
+import React, { useEffect,useContext } from "react"
 import { SafeAreaView, StyleSheet,PixelRatio, View, Text, StatusBar ,Image, ImageBackground, FlatList, Button} from "react-native"
 import Carousel,{ ParallaxImage } from 'react-native-snap-carousel';
-import scoreCards from '../api/scoreCards'
+
 import {Dimensions} from 'react-native';
 import { useState } from "react";
+import {Context} from '../context/MatchContext'
 import {
   BarIndicator,
 } from 'react-native-indicators';
@@ -11,21 +12,16 @@ import {
 const { width: screenWidth } = Dimensions.get('window')
 
 const MatchSection = () => {
-  const [scoreRes,setscoreRes] = useState(null)
-
-getScoreCardResults = async () => {
-  const response = await scoreCards.get()
-  setscoreRes(response.data)
-}
-
+  const {state,getScoreCardsData} = useContext(Context)
   useEffect(() => {
-    getScoreCardResults()
-  },[])
+    getScoreCardsData()
+  },[])     
 
-  if(!scoreRes)
-  {
-    return null
-  }
+if(!state)
+     {
+         return null
+     }
+     
 const carouselItems = [
   {
       title:"Stupms",
@@ -79,15 +75,15 @@ _renderItem = ({ item }) => {
       <Text style={styles.locationText}>{item.text}</Text>
      
       <View style={styles.scoreCardContainer}>
-      <Image source={ require('../assets/pak/group-20.png')} style={styles.iconImage} />
+      {/* <Image source={ require('../assets/pak/group-20.png')} style={styles.iconImage} /> */}
          <Text style={styles.teamTitle}>{item.team2}</Text>
          <Text style={{fontSize: 14,fontWeight:'bold',color:'white',paddingLeft:130,paddingRight:30}}>139/2(49 Over)</Text>
         </View>
 
 
       <View style={styles.scoreCardContainer}>
-      <Image source={ require('../assets/pak/group-20.png')}
-              style={styles.iconImage} />
+      {/* <Image source={ require('../assets/pak/group-20.png')}
+              style={styles.iconImage} /> */}
          <Text style={styles.teamTitle}>{item.team2}</Text>
         </View>
 
@@ -136,9 +132,10 @@ _renderItem = ({ item }) => {
         flex:1
        },
        scoreCardContainer : {
-          width : screenWidth-60,
+          width : screenWidth,
           flexDirection:'row',
-          paddingTop : 8
+          paddingTop : 12,
+
          
        },
        corouselBottomText : 
@@ -157,12 +154,11 @@ _renderItem = ({ item }) => {
           right:8
         },
         iconImage : {
-          width: 20, 
-            height: 20,
-            paddingLeft:16,
-            borderRadius: 250 / 2,
-            overflow: "hidden",
-            borderColor: "red"
+          width: 50,
+          height: 50,
+          // borderRadius: 200 / 2,
+            // backgroundColor : 'black',
+            resizeMode: 'cover'
             
         },
         teamTitle : {
@@ -178,9 +174,10 @@ _renderItem = ({ item }) => {
       },
       mainTitle : {
         fontSize: 20,
-        fontWeight:'bold',
+        fontWeight: 'bold',
         paddingLeft:16,
-        color:'white'
+        color:'white',
+        paddingTop:8
       }
         
         

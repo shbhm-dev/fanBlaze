@@ -1,21 +1,16 @@
-import React,{useState,useEffect} from "react"
+import React,{useState,useEffect,useContext} from "react"
 import { SafeAreaView, StyleSheet,Dimensions,FlatList, View, Text, StatusBar ,Image,Button} from "react-native"
-import headerAPI from '../api/headerSeries'
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry"
+import {Context} from '../context/MatchContext'
 const { width: screenWidth } = Dimensions.get('window')
 const Header = () => {
-  const [resData,setresData] = useState(null)
-  const getHeaderData = async () => {
-    const response = await headerAPI.get()
-    console.log(`hello ${response.data.series}`)
-    setresData(response.data)
-    
-  
-  }
-  useEffect(() => {
-    getHeaderData()
-     }, [])
 
-     if(!resData)
+const {state,getSeriesData} = useContext(Context)
+  useEffect(() => {
+    getSeriesData()
+  },[])     
+
+if(!state)
      {
          return null
      }
@@ -28,7 +23,7 @@ const Header = () => {
         </View>
     <FlatList   
     horizontal
-    data={resData.series}
+    data={state.series}
         renderItem={({item}) => <Button styles = {{paddingLeft:16}}color='black' title = {item.short_name}/>}
         keyExtractor={item => item.id}/>
       </View>

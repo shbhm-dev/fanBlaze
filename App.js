@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View, Text, StatusBar,Image } from "react-nat
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createAppContainer } from 'react-navigation';
 import { NavigationContainer } from '@react-navigation/native';
-
+import {Provider} from './src/context/MatchContext'
 import HomeScreen from './src/Screens/HomeScreen';
 import ProfileScreen from './src/Screens/ProfileScreen';
 const Tab = createBottomTabNavigator();
@@ -32,5 +32,9 @@ const App = () => {
   </NavigationContainer>)
 }
 
-export default App;
+export default () => {
+  return <Provider>
+    <App/>
+    </Provider>
+}
 
