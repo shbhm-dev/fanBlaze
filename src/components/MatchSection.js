@@ -13,30 +13,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Carousel, {ParallaxImage} from 'react-native-snap-carousel';
-
+import Footer from './Footer';
 import {Dimensions} from 'react-native';
 import {useState} from 'react';
 import {Context} from '../context/MatchContext';
-import {BarIndicator} from 'react-native-indicators';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const MatchSection = (props) => {
-  const {state, getScoreCardsData} = useContext(Context);
-  useEffect(() => {
-    getScoreCardsData();
-  }, []);
+const MatchSection = () => {
+  const {state} = useContext(Context);
 
-  if (!state) {
-     return (
-      <BarIndicator color='red' />
-    );
-
-  }
   const items = [];
   if (state) {
-    state.cards.forEach((element) => {
-
+    state.score.cards.forEach((element) => {
       if (Object.keys(element).length !== 0) {
         items.push({
           team1: element.match_json.teams.a.short_name,
@@ -51,15 +40,17 @@ const MatchSection = (props) => {
                   .join('-'),
           stadium: element.match_json.stadium.name,
           city: element.match_json.stadium.city,
+          toss: 'IND',
+          ccr: '10',
         });
       }
     });
   }
 
+  // eslint-disable-next-line no-undef
   _renderItem = ({item}) => {
     // console.log(item)
     return (
-
       // <TouchableOpacity onPress = {() => props.navigation.navigate('MATCHDETAIL')}>
       <View style={styles.corousalContainer}>
         <ImageBackground
@@ -92,9 +83,7 @@ const MatchSection = (props) => {
             <Text style={styles.teamTitle}>{item.team2}</Text>
           </View>
 
-          {/*
-      <Text style={styles.corouselBottomText}>{`${item.toss} Choose to Bat`}</Text>
-      <Text style={styles.ccrText}>{`CCR ${item.ccr}`}</Text> */}
+          <Footer val={item.toss} />
         </ImageBackground>
       </View>
       // </TouchableOpacity>
@@ -138,25 +127,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 12,
   },
-  corouselBottomText: {
-    fontSize: 15,
-    paddingLeft: 16,
-    position: 'absolute',
-    color: '#d7d7d7',
-    bottom: 0,
-  },
-  ccrText: {
-    fontSize: 15,
-    position: 'absolute',
-    color: '#d7d7d7',
-    bottom: 0,
-    right: 8,
-  },
+
   iconImage: {
     width: 50,
     height: 50,
-    // borderRadius: 200 / 2,
-    // backgroundColor : 'black',
     resizeMode: 'cover',
   },
   teamTitle: {
@@ -166,7 +140,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   locationText: {
-    fontSize: 15,
+    fontSize: 12,
     paddingLeft: 16,
     color: '#d7d7d7',
   },

@@ -1,25 +1,19 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   Dimensions,
   FlatList,
   View,
   Text,
-  StatusBar,
   Image,
-  Button,
   TouchableOpacity,
 } from 'react-native';
-import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import {Context} from '../context/HeaderContext';
+import {Context} from '../context/MatchContext';
 const {width: screenWidth} = Dimensions.get('window');
 const Header = () => {
-  const {state, getSeriesData} = useContext(Context);
-  useEffect(() => {
-    getSeriesData();
-  }, []);
+  const {state} = useContext(Context);
 
+  console.log(state);
   if (!state) {
     return null;
   }
@@ -36,7 +30,7 @@ const Header = () => {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator="false"
-        data={state.series}
+        data={state.header.series}
         renderItem={({item}) => (
           <TouchableOpacity>
             <Text

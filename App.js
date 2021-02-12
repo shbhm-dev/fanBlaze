@@ -1,67 +1,30 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
-  Image,
-} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createAppContainer} from 'react-navigation';
+import React, {useContext, useEffect} from 'react';
+import {BarIndicator} from 'react-native-indicators';
 import {NavigationContainer} from '@react-navigation/native';
-import {Provider} from './src/context/HeaderContext';
-// import {createStackNavigator} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createSwitchNavigator} from 'react-navigation';
-import {Provider as Provider1} from './src/context/MatchContext';
-import HomeScreen from './src/Screens/HomeScreen';
-import ProfileScreen from './src/Screens/ProfileScreen';
+import {Provider} from './src/context/MatchContext';
 import MatchDetailScreen from './src/Screens/MatchDetailScreen';
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+import TabComponent from './src/components/TabComponent';
+import {Context} from './src/context/MatchContext';
 const App = () => {
+  const {state, getData} = useContext(Context);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  if (!state) {
+    return <BarIndicator color="red" />;
+  }
   return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarIcon: ({color}) => (
-              <Image
-                style={{width: 45, height: 45}}
-                source={require('./src/assets/homeBarIcon/group-44.png')}
-              />
-            ),
-            tabBarLabel: 'Home',
-          }}
-        />
-
-        <Tab.Screen
-          name="Profile Screen"
-          component={ProfileScreen}
-          options={{
-            tabBarIcon: ({color}) => (
-              <Image
-                style={{width: 45, height: 45}}
-                source={require('./src/assets/profileBarIcon/group-38.png')}
-              />
-            ),
-            tabBarLabel: 'Profile',
-          }}
-        />
-      </Tab.Navigator>
+      <TabComponent />
     </NavigationContainer>
   );
 };
 
 export default () => {
   return (
-    <Provider1>
-      <Provider>
-        <App />
-      </Provider>
-    </Provider1>
+    <Provider>
+      <App />
+    </Provider>
   );
 };

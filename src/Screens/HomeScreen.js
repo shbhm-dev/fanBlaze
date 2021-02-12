@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,13 +10,14 @@ import {
 import Header from '../components/header';
 import MatchSection from '../components/MatchSection';
 import {BarIndicator} from 'react-native-indicators';
-
+import {Context} from '../context/MatchContext';
 const HomeScreen = ({navigation}) => {
-  // console.log(navigation)
+  
+
   return (
     <View style={styles.container}>
-      <Header />
-      <MatchSection nav = {navigation}/>
+      <Header  />
+      <MatchSection  />
     </View>
   );
 };

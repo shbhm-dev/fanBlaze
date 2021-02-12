@@ -2,32 +2,29 @@ import createDataContext from './createDataContext';
 import MatchDataApi from '../api/MatchDataApi';
 const matchReducer = (state, action) => {
   switch (action.type) {
-    case 'get_seriesData':
-      return action.payload;
-    case 'get_scoreCardsData':
-      return action.payload;
+    case 'get_data':
+      return {header: action.payload.header, score: action.payload.score};
     default:
       return state;
   }
 };
-const getSeriesData = (dispatch) => {
-  return async () => {
-    const response = await MatchDataApi.get('/header-series');
 
-    dispatch({type: 'get_seriesData', payload: response.data});
-  };
-};
-const getScoreCardsData = (dispatch) => {
+const getData = (dispatch) => {
   return async () => {
-    const response = await MatchDataApi.get('/score-cards');
+    const headResp = await MatchDataApi.get('/header-series');
+    const scoreResp = await MatchDataApi.get('/score-cards');
 
-    dispatch({type: 'get_scoreCardsData', payload: response.data});
-    // console.log('score cards data:');
-    // console.log(response.data.cards);
+    dispatch({
+      type: 'get_data',
+      payload: {
+        header: headResp.data,
+        score: scoreResp.data,
+      },
+    });
   };
 };
 export const {Context, Provider} = createDataContext(
   matchReducer,
-  {getSeriesData, getScoreCardsData},
+  {getData},
   null,
 );
