@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import Carousel, {ParallaxImage} from 'react-native-snap-carousel';
 import Footer from './Footer';
+import TeamDetails from './TeamDetails';
 import {Dimensions} from 'react-native';
 import {useState} from 'react';
 import {Context} from '../context/MatchContext';
@@ -37,7 +38,9 @@ const MatchSection = () => {
                   .substring(0, 10)
                   .split('-')
                   .reverse()
-                  .join('-'),
+                  .join('-') +
+                ',' +
+                element.start_date.substring(11, 16),
           stadium: element.match_json.stadium.name,
           city: element.match_json.stadium.city,
           toss: 'IND',
@@ -51,7 +54,6 @@ const MatchSection = () => {
   _renderItem = ({item}) => {
     // console.log(item)
     return (
-      // <TouchableOpacity onPress = {() => props.navigation.navigate('MATCHDETAIL')}>
       <View style={styles.corousalContainer}>
         <ImageBackground
           source={require('../assets/corouselImage/bitmap.png')}
@@ -61,32 +63,11 @@ const MatchSection = () => {
             style={
               styles.locationText
             }>{`${item.stadium} , ${item.city}`}</Text>
-
-          <View style={styles.scoreCardContainer}>
-            {/* <Image source={ require('../assets/pak/group-20.png')} style={styles.iconImage} /> */}
-            <Text style={styles.teamTitle}>{item.team1}</Text>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: 'bold',
-                color: 'white',
-                paddingLeft: 130,
-                paddingRight: 30,
-              }}>
-              139/2(49 Over)
-            </Text>
-          </View>
-
-          <View style={styles.scoreCardContainer}>
-            {/* <Image source={ require('../assets/pak/group-20.png')}
-              style={styles.iconImage} /> */}
-            <Text style={styles.teamTitle}>{item.team2}</Text>
-          </View>
-
+          <TeamDetails value={item.team1} />
+          <TeamDetails value={item.team2} />
           <Footer val={item.toss} />
         </ImageBackground>
       </View>
-      // </TouchableOpacity>
     );
   };
 

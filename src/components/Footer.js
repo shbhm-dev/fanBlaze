@@ -15,18 +15,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   corouselBottomText: {
-    fontSize: 15,
+    fontSize: 12,
     paddingLeft: 16,
     position: 'absolute',
     color: '#d7d7d7',
     bottom: 0,
   },
   ccrText: {
-    fontSize: 15,
+    fontSize: 12,
     position: 'absolute',
     color: '#d7d7d7',
     bottom: 0,
-    right: 10,
+    right: 16,
   },
 });
 export default Footer;
