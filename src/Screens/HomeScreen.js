@@ -23,7 +23,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Header value={setTitleText} />
-      <MatchSection value={filterData} />
+      <MatchSection value={filterData} nav={navigation} />
     </View>
   );
 };

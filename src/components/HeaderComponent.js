@@ -29,11 +29,10 @@ const style = StyleSheet.create({
   header: {
     width: screenWidth,
     backgroundColor: 'white',
-    marginTop: 40,
     flexDirection: 'row',
   },
   headerText: {
-    marginLeft: 10,
+    paddingLeft: 10,
     fontSize: 25,
     fontFamily: 'HelveticaNeue-Medium',
     fontWeight: 'bold',

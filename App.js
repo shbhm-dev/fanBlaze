@@ -4,7 +4,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from './src/context/matchContext';
 import MatchDetailScreen from './src/screens/MatchDetailScreen';
 import TabComponent from './src/components/TabComponent';
+import {createStackNavigator} from '@react-navigation/stack';
 import {Context} from './src/context/matchContext';
+const Stack = createStackNavigator();
 const App = () => {
   const {state, getData} = useContext(Context);
   useEffect(() => {
@@ -17,7 +19,10 @@ const App = () => {
   }
   return (
     <NavigationContainer>
-      <TabComponent />
+      <Stack.Navigator>
+        <Stack.Screen name="FanBlaze" component={TabComponent} />
+        <Stack.Screen name="MatchScreen" component={MatchDetailScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

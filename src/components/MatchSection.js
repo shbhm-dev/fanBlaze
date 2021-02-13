@@ -21,16 +21,16 @@ import {Context} from '../context/matchContext';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const MatchSection = ({value}) => {
+const MatchSection = ({value, nav}) => {
   const {state} = useContext(Context);
 
-
   const items = value(state.score.cards);
-  const data = []
+  const data = [];
   if (state) {
     items.forEach((element) => {
       if (state) {
         data.push({
+          id: element._id,
           team1: element.match_json.teams.a.short_name,
           team2: element.match_json.teams.b.short_name,
           status:
@@ -47,6 +47,7 @@ const MatchSection = ({value}) => {
           city: element.match_json.stadium.city,
           toss: 'IND',
           ccr: '10',
+          match_name: element.match_json.short_name,
         });
       }
     });
@@ -56,20 +57,28 @@ const MatchSection = ({value}) => {
   _renderItem = ({item}) => {
     // console.log(item)
     return (
-      <View style={styles.corousalContainer}>
-        <ImageBackground
-          source={require('../assets/corouselImage/bitmap.png')}
-          style={styles.bacgroundImage}>
-          <Text style={styles.mainTitle}>{item.status}</Text>
-          <Text
-            style={
-              styles.locationText
-            }>{`${item.stadium} , ${item.city}`}</Text>
-          <TeamDetails value={item.team1} />
-          <TeamDetails value={item.team2} />
-          <Footer val={item.toss} />
-        </ImageBackground>
-      </View>
+      <TouchableOpacity
+        style={styles.corousalContainer}
+        onPress={() =>
+          nav.navigate('MatchScreen', {
+            match_name: item.match_name,
+          })
+        }>
+        <View style={styles.corousalContainer}>
+          <ImageBackground
+            source={require('../assets/corouselImage/bitmap.png')}
+            style={styles.bacgroundImage}>
+            <Text style={styles.mainTitle}>{item.status}</Text>
+            <Text
+              style={
+                styles.locationText
+              }>{`${item.stadium} , ${item.city}`}</Text>
+            <TeamDetails value={item.team1} />
+            <TeamDetails value={item.team2} />
+            <Footer val={item.toss} />
+          </ImageBackground>
+        </View>
+      </TouchableOpacity>
     );
   };
 
