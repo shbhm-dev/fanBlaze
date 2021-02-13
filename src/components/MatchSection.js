@@ -17,23 +17,25 @@ import Footer from './Footer';
 import TeamDetails from './TeamDetails';
 import {Dimensions} from 'react-native';
 import {useState} from 'react';
-import {Context} from '../context/MatchContext';
+import {Context} from '../context/matchContext';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const MatchSection = () => {
+const MatchSection = ({value}) => {
   const {state} = useContext(Context);
 
-  const items = [];
+
+  const items = value(state.score.cards);
+  const data = []
   if (state) {
-    state.score.cards.forEach((element) => {
-      if (Object.keys(element).length !== 0) {
-        items.push({
+    items.forEach((element) => {
+      if (state) {
+        data.push({
           team1: element.match_json.teams.a.short_name,
           team2: element.match_json.teams.b.short_name,
           status:
             element.status == 'STARTED'
-              ? 'LIVE'
+              ? '🔴 LIVE'
               : element.start_date
                   .substring(0, 10)
                   .split('-')
@@ -49,8 +51,8 @@ const MatchSection = () => {
       }
     });
   }
+  console.log(data);
 
-  // eslint-disable-next-line no-undef
   _renderItem = ({item}) => {
     // console.log(item)
     return (
@@ -82,7 +84,7 @@ const MatchSection = () => {
       <Carousel
         layout={'default'}
         ref={(ref) => (this.carousel = ref)}
-        data={items}
+        data={data}
         sliderWidth={screenWidth}
         sliderHeight={screenWidth}
         itemWidth={screenWidth - 60}

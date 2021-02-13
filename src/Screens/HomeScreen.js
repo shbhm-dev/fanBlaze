@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,17 +7,23 @@ import {
   StatusBar,
   Image,
 } from 'react-native';
-import Header from '../components/header';
+import Header from '../components/HeaderComponent';
 import MatchSection from '../components/MatchSection';
 import {BarIndicator} from 'react-native-indicators';
-import {Context} from '../context/MatchContext';
+import {Context} from '../context/matchContext';
 const HomeScreen = ({navigation}) => {
-  
+  const [titleText, setTitleText] = useState('');
+  const filterData = (scoreData) => {
+    if (titleText == '') {
+      return scoreData;
+    }
+    return scoreData.filter((element) => element.series_id == titleText);
+  };
 
   return (
     <View style={styles.container}>
-      <Header  />
-      <MatchSection  />
+      <Header value={setTitleText} />
+      <MatchSection value={filterData} />
     </View>
   );
 };
